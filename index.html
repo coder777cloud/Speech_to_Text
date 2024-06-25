@@ -1,0 +1,103 @@
+<html lang="en"> <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial scale=1.0">
+  <title> Speech to text </title>
+  <style> body { 
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-image: linear-gradient(to left, #fca1d5, #fd8fcb, #fe7bbf, #ff65b3, #ff4ba5, #fc429f, #f9379a, #f62b94, #ef3895, #e84196, #e04996, #d95096);
+  text-align: center;
+  margin: 50px; }
+    #startstopbutton {
+      padding: 10px, 20px;
+      font-size: 16px;
+
+    }
+#result {
+
+  margin-top: 20px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  min-height: 50px;
+
+
+}
+
+    ;</style>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <link rel="apple-touch-icon" sizes="180x180" href="Favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="Favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="Favicons/favicon-16x16.png">
+  <link rel="manifest" href="Favicons/site.webmanifest">
+
+
+</head>
+
+<body>
+<h1>Speech to Text</h1>
+
+  <h5>If you press the button below anything that is spoken will be turned into captions</h5>
+
+  <button id="startstopbutton"> Start Listening</button>
+  <div id="result"></div>
+  <script>
+
+    const startstopbutton = document.getElementById("startstopbutton");
+    const resultdiv = document.getElementById("result");
+
+    const SpeechRecognition = window.SpeechRecognition ||  window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.interimResults = true;
+    recognition.continous = true;
+    let listening = false;
+    recognition.onresult = (event) => {
+      let transcript = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+
+        transcript +=  event.results[i][0].transcript;
+      }
+      resultdiv.innerHTML = transcript;
+
+
+
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech Recognition error", event);
+    }
+    recognition.onend = () => {
+      listening = false;
+      startstopbutton.textContent = "Start Listening";
+    }
+
+    startstopbutton.addEventListener("click", () => {
+      if (listening) {
+        recognition.stop();
+        listening = false;
+        startstopbutton.textContent = "Start Listening";
+      }
+      else {recognition.start();
+           listening = true;}
+      startstopbutton.textContent = "Stop Listening";
+    })
+  </script>
+
+  <div class="row">
+    <div class="column">
+      <img src="Screenshot 2024-06-22 204443.png">
+      <img src="Screenshot 2024-06-22 204452.png">
+      <img src="Screenshot 2024-06-22 204109.png">
+      <img src="Screenshot 2024-06-22 204045.png">
+      <img src="Screenshot 2024-06-22 204059.png">
+      <img src="Screenshot 2024-06-22 204115.png">
+    
+    </div>
+   
+  
+</body>
+
+</html>
